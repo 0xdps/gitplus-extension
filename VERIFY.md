@@ -1,17 +1,11 @@
 # Verifying GitPlus Extension is Working
 
-## The Errors You're Seeing
-
-The errors in the Extension Development Host console are **NOT from GitPlus**. They're from other extensions like:
-- Gemini Code Assist (`google.geminicodeassist`)
-- Cloud Code (`googlecloudtools.cloudcode`)
-
-These are normal and won't affect GitPlus functionality.
-
 ## How to Verify GitPlus is Working
 
 ### 1. Check Extension Activation
+
 Look for this message in the Debug Console (not Extension Development Host):
+
 ```
 GitPlus extension is now active!
 ```
@@ -50,22 +44,26 @@ GitPlus extension is now active!
 ### 3. Check for GitPlus Logs
 
 If something goes wrong, look for logs prefixed with `GitPlus:` in the Debug Console:
+
 - `GitPlus: Error showing file history: ...`
 - `GitPlus: Error renaming commit: ...`
 
 ### 4. Common Issues
 
 **Commands don't appear?**
+
 - Make sure you're in a Git repository
 - Reload the Extension Development Host window (`Cmd+R` / `Ctrl+R`)
 - Check the Debug Console for activation errors
 
 **Extension not activating?**
+
 - Check that `out/extension.js` exists (run `npm run compile`)
 - Look for errors in the Debug Console
 - Verify `package.json` has correct `main` path
 
 **Git commands failing?**
+
 - Ensure Git is installed: `git --version`
 - Make sure you're testing in a Git repository
 - Check workspace path is correct
@@ -101,4 +99,3 @@ git commit -m "Initial commit"
 ✅ Source Control shows rename button  
 ✅ Commands execute successfully  
 ✅ No GitPlus-specific errors in console
-

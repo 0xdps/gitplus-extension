@@ -1,74 +1,78 @@
 {
-  "name": "gitplus",
-  "displayName": "GitPlus",
-  "description": "GitPlus enhances your workflow with meaningful additions: amend the latest commit, inspect file history, explore diffs, and understand how code evolved. Designed for clarity, built for real work.",
-  "version": "0.1.0",
-  "engines": {
-    "vscode": "^1.74.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "keywords": [
-    "git",
-    "commit",
-    "history",
-    "file-history",
-    "git-plus"
-  ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
-  "main": "./out/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "gitplus.renameLastCommit",
-        "title": "GitPlus: Rename Last Commit Message",
-        "category": "GitPlus",
-        "icon": "$(edit)"
-      },
-      {
-        "command": "gitplus.showFileHistory",
-        "title": "GitPlus: Show File History",
-        "category": "GitPlus",
-        "icon": "$(history)"
-      }
-    ],
-    "menus": {
-      "explorer/context": [
-        {
-          "command": "gitplus.showFileHistory",
-          "when": "explorerResourceIsFile",
-          "group": "gitplus"
-        }
-      ],
-      "scm/title": [
-        {
-          "command": "gitplus.renameLastCommit",
-          "when": "scmProvider == git",
-          "group": "navigation"
-        }
-      ],
-      "scm/resourceState/context": [
-        {
-          "command": "gitplus.showFileHistory",
-          "when": "scmProvider == git && scmResourceType == file",
-          "group": "gitplus"
-        }
-      ]
-    }
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./"
-  },
-  "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@types/vscode": "^1.74.0",
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {}
+	"name": "gitplus",
+	"displayName": "GitPlus",
+	"description": "GitPlus enhances your workflow with meaningful additions: amend the latest commit, inspect file history, explore diffs, and understand how code evolved. Designed for clarity, built for real work.",
+	"version": "0.1.0",
+	"engines": {
+		"vscode": "^1.74.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"git",
+		"commit",
+		"history",
+		"file-history",
+		"git-plus"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "gitplus.renameLastCommit",
+				"title": "Edit Last Commit Message",
+				"category": "GitPlus",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "gitplus.showFileHistory",
+				"title": "Show File History",
+				"category": "GitPlus",
+				"icon": "$(history)"
+			},
+			{
+				"command": "gitplus.postInstall",
+				"title": "Post Install Page",
+				"category": "GitPlus"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "gitplus.showFileHistory",
+					"when": "explorerResourceIsFile",
+					"group": "gitplus"
+				}
+			],
+			"scm/title": [
+				{
+					"command": "gitplus.renameLastCommit",
+					"when": "scmProvider == git",
+					"group": "navigation"
+				}
+			],
+			"scm/resourceState/context": [
+				{
+					"command": "gitplus.showFileHistory",
+					"when": "scmProvider == git && scmResourceType == file",
+					"group": "gitplus"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./"
+	},
+	"devDependencies": {
+		"@types/node": "^20.0.0",
+		"@types/vscode": "^1.74.0",
+		"typescript": "^5.0.0"
+	},
+	"dependencies": {}
 }
-

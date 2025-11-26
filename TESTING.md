@@ -3,11 +3,13 @@
 ## Step-by-Step Local Testing
 
 ### 1. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 2. Compile the Extension
+
 ```bash
 npm run compile
 ```
@@ -17,12 +19,14 @@ This creates the `out/` directory with compiled JavaScript files.
 ### 3. Launch Extension Development Host
 
 **Method A: Using VS Code Debugger (Easiest)**
+
 1. Open this project folder in VS Code
 2. Press `F5` (or `Cmd+F5` on Mac)
 3. A new VS Code window will open labeled "[Extension Development Host]"
 4. This window has your extension loaded
 
 **Method B: Using Command Line**
+
 ```bash
 code --extensionDevelopmentPath=$(pwd)
 ```
@@ -60,6 +64,7 @@ code --extensionDevelopmentPath=$(pwd)
 ### 5. Making Changes During Development
 
 **Option A: Watch Mode (Recommended)**
+
 ```bash
 # Terminal 1: Start watch mode
 npm run watch
@@ -70,6 +75,7 @@ npm run watch
 ```
 
 **Option B: Manual Compile**
+
 ```bash
 # After each code change:
 npm run compile
@@ -86,16 +92,19 @@ npm run compile
 ### 7. Common Issues
 
 **Extension not loading?**
+
 - Make sure `out/extension.js` exists (run `npm run compile`)
 - Check the Debug Console for errors
 - Verify `package.json` has correct `main` path
 
 **Commands not appearing?**
+
 - Reload the Extension Development Host window
 - Check Command Palette → type "GitPlus"
 - Verify activation events in `package.json`
 
 **Git commands failing?**
+
 - Ensure Git is installed: `git --version`
 - Make sure you're testing in a Git repository
 - Check the workspace path is correct
@@ -133,4 +142,3 @@ vsce package
 # Launch Extension Development Host
 code --extensionDevelopmentPath=$(pwd)
 ```
-
