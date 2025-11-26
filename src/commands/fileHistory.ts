@@ -29,19 +29,13 @@ export async function showFileHistory(uri?: vscode.Uri) {
 		if (uri) {
 			filePath = uri.fsPath;
 		} else {
-			// If no URI provided, ask user to select a file
-			const fileUri = await vscode.window.showOpenDialog({
-				canSelectFiles: true,
-				canSelectFolders: false,
-				canSelectMany: false,
-				openLabel: "Select File",
-			});
-
-			if (!fileUri || fileUri.length === 0) {
+			// Use the currently active editor file
+			const activeEditor = vscode.window.activeTextEditor;
+			if (!activeEditor || !activeEditor.document || activeEditor.document.isUntitled) {
+				vscode.window.showErrorMessage("No file selected and no active file in editor.");
 				return;
 			}
-
-			filePath = fileUri[0].fsPath;
+			filePath = activeEditor.document.uri.fsPath;
 		}
 
 		try {

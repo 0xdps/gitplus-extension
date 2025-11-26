@@ -30,13 +30,15 @@ export function activate(context: vscode.ExtensionContext) {
 			if (workspaceFolders && workspaceFolders.length > 0) {
 				const postInstallPath = vscode.Uri.joinPath(
 					workspaceFolders[0].uri,
-					"POST_INSTALL.md",
+					"POST_INSTALL.md"
 				);
-				vscode.commands.executeCommand("vscode.open", postInstallPath);
+				vscode.workspace.openTextDocument(postInstallPath)
+					.then(doc => vscode.window.showTextDocument(doc),
+						() => vscode.window.showInformationMessage("POST_INSTALL.md not found in workspace root."));
 			} else {
-				vscode.window.showInformationMessage("POST_INSTALL.md not found.");
+				vscode.window.showInformationMessage("No workspace folder found. Cannot show POST_INSTALL.md.");
 			}
-		},
+		}
 	);
 
 	// Show post-install page on first install
