@@ -1,4 +1,4 @@
-# Verifying GitPlus Extension is Working
+# GitPlus Extension is Working
 
 ## How to Verify GitPlus is Working
 

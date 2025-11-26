@@ -28,13 +28,13 @@ export function activate(context: vscode.ExtensionContext) {
 		() => {
 			const workspaceFolders = vscode.workspace.workspaceFolders;
 			if (workspaceFolders && workspaceFolders.length > 0) {
-				const verifyPath = vscode.Uri.joinPath(
+				const postInstallPath = vscode.Uri.joinPath(
 					workspaceFolders[0].uri,
-					"VERIFY.md",
+					"POST_INSTALL.md",
 				);
-				vscode.commands.executeCommand("vscode.open", verifyPath);
+				vscode.commands.executeCommand("vscode.open", postInstallPath);
 			} else {
-				vscode.window.showInformationMessage("VERIFY.md not found.");
+				vscode.window.showInformationMessage("POST_INSTALL.md not found.");
 			}
 		},
 	);

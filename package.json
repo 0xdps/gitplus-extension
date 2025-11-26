@@ -16,6 +16,10 @@
 		"file-history",
 		"git-plus"
 	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/0xdps/gitplus-vs-code-extension.git"
+	},
 	"activationEvents": [
 		"onStartupFinished"
 	],
