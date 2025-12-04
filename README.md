@@ -16,23 +16,11 @@ Quickly update the most recent commit message without touching staging or other 
 
 ⚠️ **Only affects the latest commit (HEAD).** Renaming older commits is not supported (yet).
 
-### 2. File History Viewer
+## 🚧 Coming Soon
 
-See the full Git history of any file, including renames and modifications over time.
+We're actively building more powerful Git utilities to make your workflow smoother. Stay tuned for upcoming features including file history tracking, advanced diff views, and more. Your feedback helps shape what comes next!
 
-**How to use:**
-
-- Right-click a file → `GitPlus: Show File History`
-- Or open Command Palette → `GitPlus: Show File History`
-
-**What you get:**
-
-- List of commits affecting that file
-- Author & timestamp info
-- Ability to view:
-  - File content at that commit
-  - Diff for that commit
-  - Full commit details
+<!-- File History Viewer feature is currently hidden. -->
 
 ## 🔧 Requirements
 
@@ -50,7 +38,7 @@ See the full Git history of any file, including renames and modifications over t
 | Command                               | Description                                              |
 | ------------------------------------- | -------------------------------------------------------- |
 | `GitPlus: Rename Last Commit Message` | Amend the latest commit message                          |
-| `GitPlus: Show File History`          | View the list of commits that modified a particular file |
+<!-- `GitPlus: Show File History`          | View the list of commits that modified a particular file -->
 
 ## 💬 Feedback & Suggestions
 
@@ -102,12 +90,14 @@ npm run compile
 #### Testing Checklist
 
 - ✅ Test "Rename Last Commit Message" command
-- ✅ Test "Show File History" from file explorer context menu
-- ✅ Test "Show File History" from command palette
-- ✅ Test "Edit Message" option when viewing HEAD commit in file history
-- ✅ Test viewing file content at different commits
-- ✅ Test viewing diffs
-- ✅ Test viewing commit details
+<!--
+✅ Test "Show File History" from file explorer context menu
+✅ Test "Show File History" from command palette
+✅ Test "Edit Message" option when viewing HEAD commit in file history
+✅ Test viewing file content at different commits
+✅ Test viewing diffs
+✅ Test viewing commit details
+-->
 
 ### Build
 

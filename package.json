@@ -33,12 +33,6 @@
 				"icon": "$(edit)"
 			},
 			{
-				"command": "gitplus.showFileHistory",
-				"title": "Show File History",
-				"category": "GitPlus",
-				"icon": "$(history)"
-			},
-			{
 				"command": "gitplus.postInstall",
 				"title": "Post Install Page",
 				"category": "GitPlus"
