@@ -3,6 +3,7 @@
 	"displayName": "GitPlus",
 	"description": "GitPlus enhances your workflow with meaningful additions: amend the latest commit, inspect file history, explore diffs, and understand how code evolved. Designed for clarity, built for real work.",
 	"version": "0.1.0",
+	"publisher": "0xdps-labs",
 	"engines": {
 		"vscode": "^1.74.0"
 	},
