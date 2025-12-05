@@ -35,6 +35,17 @@
 				"icon": "$(edit)"
 			},
 			{
+				"command": "gitplus.editCommitMessage",
+				"title": "Edit Commit Message",
+				"category": "GitPlus",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "gitplus.showFileHistory",
+				"title": "Show File History",
+				"category": "GitPlus"
+			},
+			{
 				"command": "gitplus.postInstall",
 				"title": "Post Install Page",
 				"category": "GitPlus"
@@ -61,6 +72,13 @@
 					"when": "scmProvider == git && scmResourceType == file",
 					"group": "gitplus"
 				}
+			],
+			"scm/commit/context": [
+				{
+					"command": "gitplus.editCommitMessage",
+					"when": "scmProvider == git",
+					"group": "gitplus"
+				}
 			]
 		}
 	},
@@ -72,7 +90,11 @@
 	"devDependencies": {
 		"@types/node": "^20.0.0",
 		"@types/vscode": "^1.74.0",
+		"@vscode/vsce": "^3.7.1",
+		"ovsx": "^0.10.7",
 		"typescript": "^5.0.0"
 	},
-	"dependencies": {}
+	"dependencies": {
+		"simple-git": "^3.30.0"
+	}
 }

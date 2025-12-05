@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { renameLastCommit } from "./commands/renameCommit";
+import { renameLastCommit, editCommitMessage } from "./commands/renameCommit";
 import { showFileHistory } from "./commands/fileHistory";
 
 let outputChannel: vscode.OutputChannel;
@@ -20,6 +20,42 @@ export function activate(context: vscode.ExtensionContext) {
 	const fileHistoryCommand = vscode.commands.registerCommand(
 		"gitplus.showFileHistory",
 		showFileHistory,
+	);
+
+	// Register Edit Commit Message command (works for any commit)
+	const editCommitCommand = vscode.commands.registerCommand(
+		"gitplus.editCommitMessage",
+		async (arg?: string | vscode.Uri | any) => {
+			// Handle different argument types that VS Code might pass
+			let commitHash: string | undefined;
+			
+			if (arg) {
+				if (typeof arg === "string") {
+					// Direct commit hash string
+					commitHash = arg;
+				} else if (arg instanceof vscode.Uri) {
+					// URI - might contain commit info in query or path
+					const uriString = arg.toString();
+					// Try to extract commit hash from URI (format may vary)
+					const hashMatch = uriString.match(/([a-f0-9]{40}|[a-f0-9]{7,})/i);
+					if (hashMatch) {
+						commitHash = hashMatch[1];
+					}
+				} else if (arg.hash || arg.commitHash) {
+					// Object with hash property
+					commitHash = arg.hash || arg.commitHash;
+				} else if (typeof arg === "object" && arg.toString) {
+					// Try to get string representation
+					const str = arg.toString();
+					const hashMatch = str.match(/([a-f0-9]{40}|[a-f0-9]{7,})/i);
+					if (hashMatch) {
+						commitHash = hashMatch[1];
+					}
+				}
+			}
+			
+			await editCommitMessage(commitHash);
+		},
 	);
 
 	// Register Post Install command
@@ -50,6 +86,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		renameCommitCommand,
 		fileHistoryCommand,
+		editCommitCommand,
 		outputChannel,
 	);
 	context.subscriptions.push(postInstallCommand);
