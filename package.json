@@ -47,15 +47,21 @@
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./"
+		"watch": "tsc -watch -p ./",
+		"vscode:prepublish": "npm run compile",
+		"prepare:dist": "shx mkdir -p dist",
+		"package:vsix": "npm run prepare:dist && vsce package -o dist",
+		"publish:vscode": "vsce publish --packagePath \"$(shx ls -t dist/*.vsix | head -1)\"",
+		"publish:ovsx": "ovsx publish \"$(shx ls -t dist/*.vsix | head -1)\"",
+		"release": "npm run package:vsix && npm run publish:vscode && npm run publish:ovsx"
 	},
 	"devDependencies": {
 		"@types/node": "^20.0.0",
 		"@types/vscode": "^1.74.0",
 		"@vscode/vsce": "^3.7.1",
 		"ovsx": "^0.10.7",
+		"shx": "^0.4.0",
 		"typescript": "^5.0.0"
 	},
 	"dependencies": {
