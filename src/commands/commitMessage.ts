@@ -115,34 +115,38 @@ export async function editCommitMessage(commitHash?: string) {
 				}
 
 				if (localCommitHashes.length === 0) {
-					vscode.window.showErrorMessage("No local commits found.");
+					vscode.window.showInformationMessage("GitPlus: No local commits found.");
 					return;
 				}
 
-				// Get full commit details for each local commit using git show
+				// Get full commit details for all local commits in a single git command
 				const commits: (CommitItem & { fullMessage: string })[] = [];
-				const seenHashes = new Set<string>();
 				
-				for (const hash of localCommitHashes) {
-					// Skip if we've already processed this hash
-					if (seenHashes.has(hash)) {
-						continue;
-					}
-					seenHashes.add(hash);
+				try {
+					// Use git log with custom format to get all commits at once - much faster!
+					const commitRange = localCommitHashes.join(' ');
+					const { stdout } = await execAsync(
+						`git log --no-walk --format="%H%x00%an%x00%ai%x00%B%x00" ${commitRange}`,
+						{ cwd: workspacePath }
+					);
 					
-					try {
-						// Use git show to get commit details
-						const { stdout } = await execAsync(
-							`git show --no-patch --format="%H%n%an%n%ai%n%B" ${hash}`,
-							{ cwd: workspacePath }
-						);
-						
-						const lines = stdout.trim().split('\n');
-						if (lines.length >= 4) {
-							const fullHash = lines[0];
-							const authorName = lines[1];
-							const authorDate = lines[2];
-							const message = lines.slice(3).join('\n').trim();
+					// Split by null byte separator between commits
+					const commitEntries = stdout.trim().split('\x00\n').filter(entry => entry.length > 0);
+					const seenHashes = new Set<string>();
+					
+					for (const entry of commitEntries) {
+						const parts = entry.split('\x00');
+						if (parts.length >= 4) {
+							const fullHash = parts[0];
+							const authorName = parts[1];
+							const authorDate = parts[2];
+							const message = parts[3].trim();
+							
+							// Skip duplicates
+							if (seenHashes.has(fullHash)) {
+								continue;
+							}
+							seenHashes.add(fullHash);
 							
 							commits.push({
 								label:
@@ -155,9 +159,9 @@ export async function editCommitMessage(commitHash?: string) {
 								fullMessage: message,
 							});
 						}
-					} catch (error) {
-						getOutputChannel().appendLine(`Error getting details for commit ${hash}: ${error}`);
 					}
+				} catch (error) {
+					getOutputChannel().appendLine(`Error getting commit details: ${error}`);
 				}
 
 				if (commits.length === 0) {

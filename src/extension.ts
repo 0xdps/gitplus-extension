@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { editCommitMessage } from "./commands/renameCommit";
+import { editCommitMessage } from "./commands/commitMessage";
 import { showFileHistory } from "./commands/fileHistory";
 
 let outputChannel: vscode.OutputChannel;
