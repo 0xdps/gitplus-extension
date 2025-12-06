@@ -8,3 +8,4 @@ tsconfig.json
 !out/**/*.js
 .env*
 .idea/**
+.git/**

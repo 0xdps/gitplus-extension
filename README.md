@@ -6,20 +6,21 @@ A lightweight extension that adds essential Git features missing from the defaul
 
 ### 1. Edit Commit Message
 
-Edit commit messages for any local commit (HEAD or older commits).
+Quickly edit commit messages for local commits that haven't been pushed yet.
 
 **How to use:**
 
-- **Command Palette**: `Cmd+Shift+P` (Mac) / `Ctrl+Shift+P` (Windows/Linux) → `GitPlus: Edit Commit Message`
-- **Keyboard Shortcut**: `Cmd+Shift+E` (Mac) / `Ctrl+Shift+E` (Windows/Linux)
-- **Source Control Title Bar**: Click the "Edit Last Commit Message" button (for HEAD only)
+- **For HEAD commit**: Use the Source Control title bar button or Command Palette → `GitPlus: Edit Commit Message`
+- **For any local commit**: Command Palette → `GitPlus: Edit Commit Message` → Select from list of local commits
 
-When you run the command:
-1. Select a commit from the list (or it will default to HEAD if called from title bar)
-2. Enter your updated message
-3. Confirm and the commit message will be updated
+**Features:**
 
-**Note**: Editing non-HEAD commits will rewrite commit history. All commits after the edited commit will have new hashes.
+- ✅ **Local commits only** - Shows only commits that haven't been pushed to remote
+- ✅ **Undo support** - Made a mistake? Click "Undo" in the success notification to restore the original message
+- ✅ **No confirmation needed** - Direct editing for faster workflow (local commits are safe to edit)
+- ✅ **Fast performance** - Optimized to load commit lists quickly using batch git operations
+
+**Note**: The extension uses `git rev-list` to identify unpushed commits, ensuring you only edit local history.
 
 ## 🚧 Coming Soon
 
@@ -42,8 +43,7 @@ We're actively building more powerful Git utilities to make your workflow smooth
 
 | Command                               | Description                                              |
 | ------------------------------------- | -------------------------------------------------------- |
-| `GitPlus: Rename Last Commit Message` | Amend the latest commit message                          |
-<!-- `GitPlus: Show File History`          | View the list of commits that modified a particular file -->
+| `GitPlus: Edit Commit Message` | Edit any local (unpushed) commit message with undo support                          |
 
 ## 💬 Feedback & Suggestions
 
@@ -94,15 +94,11 @@ npm run compile
 
 #### Testing Checklist
 
-- ✅ Test "Rename Last Commit Message" command
-<!--
-✅ Test "Show File History" from file explorer context menu
-✅ Test "Show File History" from command palette
-✅ Test "Edit Message" option when viewing HEAD commit in file history
-✅ Test viewing file content at different commits
-✅ Test viewing diffs
-✅ Test viewing commit details
--->
+- ✅ Test "Edit Commit Message" command for HEAD commit
+- ✅ Test "Edit Commit Message" command with commit selection
+- ✅ Test "Undo" functionality after editing
+- ✅ Verify only local (unpushed) commits are shown
+- ✅ Test Source Control title bar button
 
 ### Build
 

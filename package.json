@@ -2,7 +2,7 @@
 	"name": "gitplus",
 	"displayName": "GitPlus",
 	"description": "GitPlus enhances your workflow with meaningful additions: amend the latest commit, inspect file history, explore diffs, and understand how code evolved. Designed for clarity, built for real work.",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"publisher": "0xdps-labs",
 	"icon": "icons/gitplus-128.png",
 	"engines": {
@@ -33,16 +33,6 @@
 				"title": "Edit Commit Message",
 				"category": "GitPlus",
 				"icon": "$(edit)"
-			},
-			{
-				"command": "gitplus.postInstall",
-				"title": "Post Install Page",
-				"category": "GitPlus"
-			},
-			{
-				"command": "gitplus.getVersion",
-				"title": "Get Version",
-				"category": "GitPlus"
 			}
 		]
 	},

@@ -55,17 +55,23 @@ export function activate(context: vscode.ExtensionContext) {
 	// Register Post Install command
 	const postInstallCommand = vscode.commands.registerCommand(
 		"gitplus.postInstall",
-		() => {
-			// Get the extension's installation path
+		async () => {
 			const postInstallPath = vscode.Uri.joinPath(
 				context.extensionUri,
-				"POST_INSTALL.md"
+				"GIT_PLUS.md"
 			);
-			vscode.workspace.openTextDocument(postInstallPath)
-				.then(
-					doc => vscode.window.showTextDocument(doc),
-					() => vscode.window.showInformationMessage("POST_INSTALL.md not found in extension directory.")
+
+			try {
+				// Open in preview mode only (not editable)
+				await vscode.commands.executeCommand(
+					"markdown.showPreviewToSide",
+					postInstallPath
 				);
+			} catch (err) {
+				vscode.window.showInformationMessage(
+					"GIT_PLUS.md not found in extension directory."
+				);
+			}
 		}
 	);
 
@@ -83,11 +89,21 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	);
 
-	// Show post-install page on first install
-	if (!context.globalState.get("gitplusInstalled")) {
-		vscode.commands.executeCommand("gitplus.postInstall");
-		context.globalState.update("gitplusInstalled", true);
-	}
+	const currentVersion =
+        vscode.extensions.getExtension("0xdps-labs.gitplus")?.packageJSON.version as string | undefined;
+
+    const previousVersion = context.globalState.get<string>("gitplus.version");
+
+    if (!previousVersion) { // First install (no version stored yet)
+        vscode.commands.executeCommand("gitplus.postInstall");
+    } else if (previousVersion !== currentVersion) { // Update (version changed)
+        vscode.commands.executeCommand("gitplus.postInstall");
+    }
+
+    // Persist current version for next activation
+    if (currentVersion) {
+        context.globalState.update("gitplus.version", currentVersion);
+    }
 
 	context.subscriptions.push(
 		fileHistoryCommand,
