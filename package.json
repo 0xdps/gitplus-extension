@@ -46,6 +46,11 @@
 				"category": "GitPlus"
 			},
 			{
+				"command": "gitplus.getVersion",
+				"title": "Get Version",
+				"category": "GitPlus"
+			},
+			{
 				"command": "gitplus.postInstall",
 				"title": "Post Install Page",
 				"category": "GitPlus"

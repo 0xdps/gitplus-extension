@@ -62,18 +62,30 @@ export function activate(context: vscode.ExtensionContext) {
 	const postInstallCommand = vscode.commands.registerCommand(
 		"gitplus.postInstall",
 		() => {
-			const workspaceFolders = vscode.workspace.workspaceFolders;
-			if (workspaceFolders && workspaceFolders.length > 0) {
-				const postInstallPath = vscode.Uri.joinPath(
-					workspaceFolders[0].uri,
-					"POST_INSTALL.md"
+			// Get the extension's installation path
+			const postInstallPath = vscode.Uri.joinPath(
+				context.extensionUri,
+				"POST_INSTALL.md"
+			);
+			vscode.workspace.openTextDocument(postInstallPath)
+				.then(
+					doc => vscode.window.showTextDocument(doc),
+					() => vscode.window.showInformationMessage("POST_INSTALL.md not found in extension directory.")
 				);
-				vscode.workspace.openTextDocument(postInstallPath)
-					.then(doc => vscode.window.showTextDocument(doc),
-						() => vscode.window.showInformationMessage("POST_INSTALL.md not found in workspace root."));
-			} else {
-				vscode.window.showInformationMessage("No workspace folder found. Cannot show POST_INSTALL.md.");
-			}
+		}
+	);
+
+	// Register Post Install command
+	const getVersionCommand = vscode.commands.registerCommand(
+		"gitplus.getVersion",
+		() => {
+			const packageJson = vscode.Uri.joinPath(
+				context.extensionUri,
+				"package.json"
+			);
+			vscode.window.showInformationMessage(
+			`Gitplus Version: ${require(packageJson.path).version}`,
+			);
 		}
 	);
 
@@ -87,6 +99,7 @@ export function activate(context: vscode.ExtensionContext) {
 		renameCommitCommand,
 		fileHistoryCommand,
 		editCommitCommand,
+		getVersionCommand,
 		outputChannel,
 	);
 	context.subscriptions.push(postInstallCommand);
