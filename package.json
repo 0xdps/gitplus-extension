@@ -42,8 +42,8 @@
 		"vscode:prepublish": "npm run compile",
 		"prepare:dist": "shx mkdir -p dist",
 		"package:vsix": "npm run prepare:dist && vsce package -o dist",
-		"publish:vscode": "vsce publish --packagePath \"$(shx ls -t dist/*.vsix | head -1)\"",
-		"publish:ovsx": "ovsx publish \"$(shx ls -t dist/*.vsix | head -1)\"",
+		"publish:vscode": "vsce publish --packagePath $(node scripts/latestVsix.js)",
+		"publish:ovsx": "ovsx publish $(node scripts/latestVsix.js)",
 		"release": "npm run package:vsix && npm run publish:vscode && npm run publish:ovsx"
 	},
 	"devDependencies": {
