@@ -158,36 +158,106 @@ export async function editCommitMessage(commitHash?: string) {
 				}
 			} else {
 				// No commit hash provided - show a picker to select from recent commits
-				// Get recent local commits (last 50)
-				const log = await git.log({ maxCount: 50 });
+				// Get only local commits (not pushed to remote)
+				let localCommitHashes: string[] = [];
+				
+				try {
+					// Try to get commits that are ahead of the remote branch
+					const currentBranch = await git.revparse(["--abbrev-ref", "HEAD"]);
+					const branchName = currentBranch.trim();
+					
+					try {
+						// Get the remote tracking branch
+						const remoteBranch = await git.revparse(["--abbrev-ref", `${branchName}@{upstream}`]);
+						const remoteTrackingBranch = remoteBranch.trim();
+						
+						// Get commits that are in local but not in remote using rev-list
+						const { stdout } = await execAsync(
+							`git rev-list ${remoteTrackingBranch}..${branchName}`,
+							{ cwd: workspacePath }
+						);
+						
+						if (stdout.trim()) {
+							localCommitHashes = stdout.trim().split('\n').filter(hash => hash.length > 0);
+						}
+					} catch {
+						// No remote tracking branch, get all commits (up to 50)
+						const { stdout } = await execAsync(
+							`git rev-list --max-count=50 HEAD`,
+							{ cwd: workspacePath }
+						);
+						
+						if (stdout.trim()) {
+							localCommitHashes = stdout.trim().split('\n').filter(hash => hash.length > 0);
+						}
+					}
+				} catch (error) {
+					// Fallback: get all recent commits
+					getOutputChannel().appendLine("Could not determine local commits, showing all recent commits");
+					const { stdout } = await execAsync(
+						`git rev-list --max-count=50 HEAD`,
+						{ cwd: workspacePath }
+					);
+					
+					if (stdout.trim()) {
+						localCommitHashes = stdout.trim().split('\n').filter(hash => hash.length > 0);
+					}
+				}
 
-				if (!log.all || log.all.length === 0) {
-					vscode.window.showErrorMessage("No commits found in repository.");
+				if (localCommitHashes.length === 0) {
+					vscode.window.showErrorMessage("No local commits found.");
 					return;
 				}
 
-				// Parse commits and store the full message
-				const commits: (CommitItem & { fullMessage: string })[] = log.all.map(
-					(commit) => ({
-						label:
-							commit.message.length > 60
-								? commit.message.substring(0, 60) + "..."
-								: commit.message,
-						description: `${commit.author_name} • ${commit.date}`,
-						detail: `Hash: ${commit.hash.substring(0, 8)}`,
-						hash: commit.hash,
-						fullMessage: commit.message,
-					}),
-				);
+				// Get full commit details for each local commit using git show
+				const commits: (CommitItem & { fullMessage: string })[] = [];
+				const seenHashes = new Set<string>();
+				
+				for (const hash of localCommitHashes) {
+					// Skip if we've already processed this hash
+					if (seenHashes.has(hash)) {
+						continue;
+					}
+					seenHashes.add(hash);
+					
+					try {
+						// Use git show to get commit details
+						const { stdout } = await execAsync(
+							`git show --no-patch --format="%H%n%an%n%ai%n%B" ${hash}`,
+							{ cwd: workspacePath }
+						);
+						
+						const lines = stdout.trim().split('\n');
+						if (lines.length >= 4) {
+							const fullHash = lines[0];
+							const authorName = lines[1];
+							const authorDate = lines[2];
+							const message = lines.slice(3).join('\n').trim();
+							
+							commits.push({
+								label:
+									message.length > 60
+										? message.substring(0, 60) + "..."
+										: message,
+								description: `${authorName} • ${authorDate}`,
+								detail: `Hash: ${fullHash.substring(0, 8)}`,
+								hash: fullHash,
+								fullMessage: message,
+							});
+						}
+					} catch (error) {
+						getOutputChannel().appendLine(`Error getting details for commit ${hash}: ${error}`);
+					}
+				}
 
 				if (commits.length === 0) {
-					vscode.window.showErrorMessage("No valid commits found.");
+					vscode.window.showErrorMessage("No valid local commits found.");
 					return;
 				}
 
 				// Show commit picker
 				const selected = await vscode.window.showQuickPick(commits, {
-					placeHolder: "Select a commit to edit its message",
+					placeHolder: `Select a local commit to edit its message (${commits.length} local commits)`,
 					canPickMany: false,
 				});
 
@@ -220,20 +290,6 @@ export async function editCommitMessage(commitHash?: string) {
 
 			if (!newMessage) {
 				return; // User cancelled
-			}
-
-			// Show confirmation dialog
-			const confirmMessage = isHeadCommit
-				? "Are you sure you want to update this commit message?"
-				: `Are you sure you want to update the message for commit ${targetHash.substring(0, 8)}? This will also update all commits after it.`;
-			const confirm = await vscode.window.showWarningMessage(
-				confirmMessage,
-				{ modal: true },
-				"Yes",
-			);
-
-			if (confirm !== "Yes") {
-				return;
 			}
 
 			if (isHeadCommit) {
