@@ -47,11 +47,12 @@ export async function renameLastCommit() {
 			// Get the current commit message
 			const log = await git.log({ maxCount: 1 });
 			const currentMessage = log.latest?.message || "";
+			const oldMessage = currentMessage.trim();
 
 			// Show input box with current message
 			const newMessage = await vscode.window.showInputBox({
 				prompt: "Enter new commit message",
-				value: currentMessage.trim(),
+				value: oldMessage,
 				placeHolder: "Enter your updated commit message",
 				validateInput: (value) => {
 					if (!value || value.trim().length === 0) {
@@ -65,26 +66,29 @@ export async function renameLastCommit() {
 				return; // User cancelled
 			}
 
-			// Show confirmation dialog
-			const confirm = await vscode.window.showWarningMessage(
-				"Are you sure you want to update this commit message?",
-				{ modal: true },
-				"Yes",
-			);
-
-			if (confirm !== "Yes") {
-				return;
-			}
-
 			// Amend the commit using simple-git
 			await git.commit(newMessage, ["--amend", "--allow-empty"]);
 
-			vscode.window.showInformationMessage(
+			// Show success message with undo option
+			const action = await vscode.window.showInformationMessage(
 				"✓ Last commit message updated successfully!",
+				"Undo"
 			);
-			getOutputChannel().appendLine(
-				`✓ Commit message updated: "${newMessage}"`,
-			);
+
+			if (action === "Undo") {
+				// Restore the original message
+				await git.commit(oldMessage, ["--amend", "--allow-empty"]);
+				vscode.window.showInformationMessage(
+					"✓ Commit message restored to original"
+				);
+				getOutputChannel().appendLine(
+					`✓ Commit message restored: "${oldMessage}"`
+				);
+			} else {
+				getOutputChannel().appendLine(
+					`✓ Commit message updated: "${newMessage}"`
+				);
+			}
 		} catch (error: any) {
 			const errorMessage =
 				error?.message || error?.toString() || "Unknown error occurred";
