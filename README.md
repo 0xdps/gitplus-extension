@@ -4,17 +4,22 @@ A lightweight extension that adds essential Git features missing from the defaul
 
 ## 🚀 Features (Current)
 
-### 1. Rename Last Commit Message
+### 1. Edit Commit Message
 
-Quickly update the most recent commit message without touching staging or other changes.
+Edit commit messages for any local commit (HEAD or older commits).
 
 **How to use:**
 
-- Open the Command Palette → `GitPlus: Rename Last Commit Message`
-- Enter your updated message
-- Confirm and the last commit will be amended safely
+- **Command Palette**: `Cmd+Shift+P` (Mac) / `Ctrl+Shift+P` (Windows/Linux) → `GitPlus: Edit Commit Message`
+- **Keyboard Shortcut**: `Cmd+Shift+E` (Mac) / `Ctrl+Shift+E` (Windows/Linux)
+- **Source Control Title Bar**: Click the "Edit Last Commit Message" button (for HEAD only)
 
-⚠️ **Only affects the latest commit (HEAD).** Renaming older commits is not supported (yet).
+When you run the command:
+1. Select a commit from the list (or it will default to HEAD if called from title bar)
+2. Enter your updated message
+3. Confirm and the commit message will be updated
+
+**Note**: Editing non-HEAD commits will rewrite commit history. All commits after the edited commit will have new hashes.
 
 ## 🚧 Coming Soon
 
