@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { renameLastCommit, editCommitMessage } from "./commands/renameCommit";
+import { editCommitMessage } from "./commands/renameCommit";
 import { showFileHistory } from "./commands/fileHistory";
 
 let outputChannel: vscode.OutputChannel;
@@ -9,12 +9,6 @@ export function activate(context: vscode.ExtensionContext) {
 	outputChannel = vscode.window.createOutputChannel("GitPlus");
 	outputChannel.appendLine("GitPlus extension is now active!");
 	console.log("GitPlus extension is now active!");
-
-	// Register Rename Last Commit command
-	const renameCommitCommand = vscode.commands.registerCommand(
-		"gitplus.renameLastCommit",
-		renameLastCommit,
-	);
 
 	// Register Show File History command
 	const fileHistoryCommand = vscode.commands.registerCommand(
@@ -96,7 +90,6 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	context.subscriptions.push(
-		renameCommitCommand,
 		fileHistoryCommand,
 		editCommitCommand,
 		getVersionCommand,

@@ -29,63 +29,22 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "gitplus.renameLastCommit",
-				"title": "Edit Last Commit Message",
-				"category": "GitPlus",
-				"icon": "$(edit)"
-			},
-			{
 				"command": "gitplus.editCommitMessage",
 				"title": "Edit Commit Message",
 				"category": "GitPlus",
 				"icon": "$(edit)"
 			},
 			{
-				"command": "gitplus.showFileHistory",
-				"title": "Show File History",
+				"command": "gitplus.postInstall",
+				"title": "Post Install Page",
 				"category": "GitPlus"
 			},
 			{
 				"command": "gitplus.getVersion",
 				"title": "Get Version",
 				"category": "GitPlus"
-			},
-			{
-				"command": "gitplus.postInstall",
-				"title": "Post Install Page",
-				"category": "GitPlus"
 			}
-		],
-		"menus": {
-			"explorer/context": [
-				{
-					"command": "gitplus.showFileHistory",
-					"when": "explorerResourceIsFile",
-					"group": "gitplus"
-				}
-			],
-			"scm/title": [
-				{
-					"command": "gitplus.renameLastCommit",
-					"when": "scmProvider == git",
-					"group": "navigation"
-				}
-			],
-			"scm/resourceState/context": [
-				{
-					"command": "gitplus.showFileHistory",
-					"when": "scmProvider == git && scmResourceType == file",
-					"group": "gitplus"
-				}
-			],
-			"scm/commit/context": [
-				{
-					"command": "gitplus.editCommitMessage",
-					"when": "scmProvider == git",
-					"group": "gitplus"
-				}
-			]
-		}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
