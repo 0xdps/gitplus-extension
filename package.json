@@ -2,7 +2,7 @@
 	"name": "gitplus",
 	"displayName": "GitPlus",
 	"description": "GitPlus enhances your workflow with meaningful additions: amend the latest commit, inspect file history, explore diffs, and understand how code evolved. Designed for clarity, built for real work.",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"publisher": "0xdps-labs",
 	"icon": "icons/gitplus-128.png",
 	"engines": {
