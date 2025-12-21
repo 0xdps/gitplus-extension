@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { editCommitMessage } from "./commands/commitMessage";
 import { showFileHistory } from "./commands/fileHistory";
+import { showMergeConflictResolver } from "./commands/mergeConflict";
 
 let outputChannel: vscode.OutputChannel;
 
@@ -89,6 +90,14 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	);
 
+	// Register Merge Conflict Resolver command
+	const mergeConflictCommand = vscode.commands.registerCommand(
+		"gitplus.resolveMergeConflicts",
+		async (uri?: vscode.Uri) => {
+			await showMergeConflictResolver(uri);
+		},
+	);
+
 	const currentVersion =
         vscode.extensions.getExtension("0xdps-labs.gitplus")?.packageJSON.version as string | undefined;
 
@@ -109,6 +118,7 @@ export function activate(context: vscode.ExtensionContext) {
 		fileHistoryCommand,
 		editCommitCommand,
 		getVersionCommand,
+		mergeConflictCommand,
 		outputChannel,
 	);
 	context.subscriptions.push(postInstallCommand);

@@ -33,6 +33,56 @@
 				"title": "Edit Commit Message",
 				"category": "GitPlus",
 				"icon": "$(edit)"
+			},
+			{
+				"command": "gitplus.showFileHistory",
+				"title": "Show File History",
+				"category": "GitPlus",
+				"icon": "$(history)"
+			},
+			{
+				"command": "gitplus.resolveMergeConflicts",
+				"title": "Resolve Merge Conflicts (3-Way)",
+				"category": "GitPlus",
+				"icon": "$(git-merge)"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "gitplus.showFileHistory",
+					"group": "gitplus@1",
+					"when": "resourceScheme == file"
+				},
+				{
+					"command": "gitplus.resolveMergeConflicts",
+					"group": "gitplus@2",
+					"when": "resourceScheme == file"
+				}
+			],
+			"editor/context": [
+				{
+					"command": "gitplus.showFileHistory",
+					"group": "gitplus@1"
+				},
+				{
+					"command": "gitplus.resolveMergeConflicts",
+					"group": "gitplus@2"
+				}
+			],
+			"commandPalette": [
+				{
+					"command": "gitplus.resolveMergeConflicts",
+					"when": "gitOpenRepositoryCount > 0"
+				}
+			]
+		},
+		"keybindings": [
+			{
+				"command": "gitplus.resolveMergeConflicts",
+				"key": "ctrl+shift+m",
+				"mac": "cmd+shift+m",
+				"when": "editorTextFocus"
 			}
 		]
 	},
