@@ -2,7 +2,7 @@
 
 A lightweight extension that adds essential Git features missing from the default VS Code experience.
 
-## 🚀 Features (Current)
+## 🚀 Features
 
 ### 1. Edit Commit Message
 
@@ -22,11 +22,58 @@ Quickly edit commit messages for local commits that haven't been pushed yet.
 
 **Note**: The extension uses `git rev-list` to identify unpushed commits, ensuring you only edit local history.
 
-## 🚧 Coming Soon
+---
 
-We're actively building more powerful Git utilities to make your workflow smoother. Stay tuned for upcoming features including file history tracking, advanced diff views, and more. Your feedback helps shape what comes next!
+### 2. Show File History
 
-<!-- File History Viewer feature is currently hidden. -->
+View the complete Git history for any file with options to explore content, diffs, and commit details.
+
+**How to use:**
+
+- **Right-click** a file in Explorer → `Show File History`
+- **Right-click** in editor → `Show File History`
+- **Command Palette** → `GitPlus: Show File History`
+
+**Features:**
+
+- ✅ **Full commit history** - See all commits that touched the file
+- ✅ **View file at any commit** - See the exact file content at that point in time
+- ✅ **View diff** - See what changed in each commit
+- ✅ **Commit details** - Full commit info with stats
+- ✅ **Tracks renames** - Uses `git log --follow` to track file across renames
+
+---
+
+### 3. 3-Way Merge Conflict Resolver (IntelliJ-Style)
+
+Resolve merge conflicts with a powerful 3-panel editor, just like IntelliJ IDEA.
+
+**How to use:**
+
+- **Keyboard shortcut**: `Cmd+Shift+M` (Mac) / `Ctrl+Shift+M` (Windows/Linux)
+- **Command Palette** → `GitPlus: Resolve Merge Conflicts (3-Way)`
+- **Right-click** a conflicted file → `Resolve Merge Conflicts (3-Way)`
+
+**Layout:**
+
+```
+┌───────────────────┬───────────────────┬───────────────────┐
+│   Yours (HEAD)    │      Result       │  Theirs (Branch)  │
+│                   │   (Editable)      │                   │
+│   [Accept →]      │                   │    [← Accept]     │
+└───────────────────┴───────────────────┴───────────────────┘
+```
+
+**Features:**
+
+- ✅ **3-column layout** - Yours (left), Result (center), Theirs (right)
+- ✅ **Accept buttons** - One-click to accept left, right, or both
+- ✅ **Manual editing** - Edit the result directly in the center panel
+- ✅ **Accept All** - Apply all yours or all theirs at once
+- ✅ **Progress tracking** - Shows X/Y conflicts resolved
+- ✅ **Auto-detect conflicts** - Automatically finds all conflicted files
+- ✅ **Auto-stage** - Resolved file is automatically staged with `git add`
+- ✅ **Keyboard shortcut** - Quick access with `Cmd/Ctrl+Shift+M`
 
 ## 🔧 Requirements
 
@@ -41,9 +88,11 @@ We're actively building more powerful Git utilities to make your workflow smooth
 
 ## 🧩 Commands Overview
 
-| Command                               | Description                                              |
-| ------------------------------------- | -------------------------------------------------------- |
-| `GitPlus: Edit Commit Message` | Edit any local (unpushed) commit message with undo support                          |
+| Command                                    | Description                                                    | Shortcut              |
+| ------------------------------------------ | -------------------------------------------------------------- | --------------------- |
+| `GitPlus: Edit Commit Message`             | Edit any local (unpushed) commit message with undo support     | —                     |
+| `GitPlus: Show File History`               | View commit history for the current file                       | —                     |
+| `GitPlus: Resolve Merge Conflicts (3-Way)` | Open IntelliJ-style 3-panel merge conflict resolver            | `Cmd/Ctrl+Shift+M`    |
 
 ## 💬 Feedback & Suggestions
 
@@ -99,6 +148,14 @@ npm run compile
 - ✅ Test "Undo" functionality after editing
 - ✅ Verify only local (unpushed) commits are shown
 - ✅ Test Source Control title bar button
+- ✅ Test "Show File History" from explorer context menu
+- ✅ Test "Show File History" from editor context menu
+- ✅ Test viewing file content at specific commit
+- ✅ Test viewing diff for a commit
+- ✅ Test "Resolve Merge Conflicts" with active conflicts
+- ✅ Test Accept Left/Right/Both buttons
+- ✅ Test manual editing in result panel
+- ✅ Test saving merged result
 
 ### Build
 
