@@ -57,7 +57,7 @@
 				{
 					"command": "gitplus.resolveMergeConflicts",
 					"group": "gitplus@2",
-					"when": "resourceScheme == file"
+					"when": "resourceScheme == file && gitOpenRepositoryCount > 0 && !explorerResourceIsFolder"
 				}
 			],
 			"editor/context": [
@@ -67,7 +67,22 @@
 				},
 				{
 					"command": "gitplus.resolveMergeConflicts",
-					"group": "gitplus@2"
+					"group": "gitplus@2",
+					"when": "gitplus.fileHasConflicts"
+				}
+			],
+			"editor/title": [
+				{
+					"command": "gitplus.resolveMergeConflicts",
+					"when": "gitplus.fileHasConflicts",
+					"group": "navigation"
+				}
+			],
+			"scm/resourceState/context": [
+				{
+					"command": "gitplus.resolveMergeConflicts",
+					"when": "scmProvider == git && scmResourceGroup == merge",
+					"group": "inline"
 				}
 			],
 			"commandPalette": [
@@ -82,13 +97,14 @@
 				"command": "gitplus.resolveMergeConflicts",
 				"key": "ctrl+shift+m",
 				"mac": "cmd+shift+m",
-				"when": "editorTextFocus"
+				"when": "gitplus.fileHasConflicts && editorTextFocus"
 			}
 		]
 	},
 	"scripts": {
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
+		"test": "npm run compile && node --test --test-reporter spec test/*.test.mjs",
 		"vscode:prepublish": "npm run compile",
 		"prepare:dist": "shx mkdir -p dist",
 		"package:vsix": "npm run prepare:dist && vsce package -o dist",

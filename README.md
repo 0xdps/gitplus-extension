@@ -44,36 +44,37 @@ View the complete Git history for any file with options to explore content, diff
 
 ---
 
-### 3. 3-Way Merge Conflict Resolver (IntelliJ-Style)
+### 3. 3-Way Merge Conflict Resolver
 
-Resolve merge conflicts with a powerful 3-panel editor, just like IntelliJ IDEA.
+Resolve content conflicts in a 3-column editor: the current side, an editable result, and the incoming side. Changed lines are highlighted, and a few unchanged lines stay visible around each conflict.
 
 **How to use:**
 
-- **Keyboard shortcut**: `Cmd+Shift+M` (Mac) / `Ctrl+Shift+M` (Windows/Linux)
+- **Keyboard shortcut**: `Cmd+Shift+M` (Mac) / `Ctrl+Shift+M` (Windows/Linux) while the active editor is an unmerged file with conflict markers. Show Problems keeps that shortcut the rest of the time.
 - **Command Palette** → `GitPlus: Resolve Merge Conflicts (3-Way)`
-- **Right-click** a conflicted file → `Resolve Merge Conflicts (3-Way)`
+- **Editor title** icon when that file has conflict markers
+- **Right-click** a file in the Explorer
+- **Source Control** icon on a merge change
 
 **Layout:**
 
 ```
 ┌───────────────────┬───────────────────┬───────────────────┐
-│   Yours (HEAD)    │      Result       │  Theirs (Branch)  │
-│                   │   (Editable)      │                   │
-│   [Accept →]      │                   │    [← Accept]     │
+│   Current (HEAD)  │      Result       │ Incoming (branch) │
+│                   │    (Editable)     │                   │
 └───────────────────┴───────────────────┴───────────────────┘
 ```
 
 **Features:**
 
-- ✅ **3-column layout** - Yours (left), Result (center), Theirs (right)
-- ✅ **Accept buttons** - One-click to accept left, right, or both
-- ✅ **Manual editing** - Edit the result directly in the center panel
-- ✅ **Accept All** - Apply all yours or all theirs at once
-- ✅ **Progress tracking** - Shows X/Y conflicts resolved
-- ✅ **Auto-detect conflicts** - Automatically finds all conflicted files
-- ✅ **Auto-stage** - Resolved file is automatically staged with `git add`
-- ✅ **Keyboard shortcut** - Quick access with `Cmd/Ctrl+Shift+M`
+- ✅ **Current, incoming, or both** - Either order, or keep neither, including an empty side
+- ✅ **Manual editing** - Edit the result directly in the center column
+- ✅ **Diff3 base** - Shows the `|||||||` ancestor when Git wrote one
+- ✅ **Rebase, cherry-pick, and revert** - Labels say which side is which
+- ✅ **Modify/delete and binary files** - Choose one side instead of the text editor
+- ✅ **Multi-root** - Finds conflicts in every Git repository in the workspace
+- ✅ **Auto-stage** - The resolved file is staged with `git add`
+- ✅ **Next file** - After staging, jump to the next conflicted file
 
 ## 🔧 Requirements
 
@@ -92,7 +93,7 @@ Resolve merge conflicts with a powerful 3-panel editor, just like IntelliJ IDEA.
 | ------------------------------------------ | -------------------------------------------------------------- | --------------------- |
 | `GitPlus: Edit Commit Message`             | Edit any local (unpushed) commit message with undo support     | —                     |
 | `GitPlus: Show File History`               | View commit history for the current file                       | —                     |
-| `GitPlus: Resolve Merge Conflicts (3-Way)` | Open IntelliJ-style 3-panel merge conflict resolver            | `Cmd/Ctrl+Shift+M`    |
+| `GitPlus: Resolve Merge Conflicts (3-Way)` | Resolve content conflicts, or pick a side for modify/delete and binary files | `Cmd/Ctrl+Shift+M` when the editor has conflict markers |
 
 ## 💬 Feedback & Suggestions
 
@@ -152,10 +153,10 @@ npm run compile
 - ✅ Test "Show File History" from editor context menu
 - ✅ Test viewing file content at specific commit
 - ✅ Test viewing diff for a commit
-- ✅ Test "Resolve Merge Conflicts" with active conflicts
-- ✅ Test Accept Left/Right/Both buttons
-- ✅ Test manual editing in result panel
-- ✅ Test saving merged result
+- ✅ Test "Resolve Merge Conflicts" with a content conflict, including an empty side and a diff3 base
+- ✅ Test modify/delete and binary conflicts by keeping one side
+- ✅ Test staging, then opening the next conflicted file
+- ✅ Confirm `Cmd/Ctrl+Shift+M` still opens Problems when the editor has no conflict markers
 
 ### Build
 

@@ -10,3 +10,4 @@ tsconfig.json
 .idea/**
 .git/**
 scripts/**
+test/**
